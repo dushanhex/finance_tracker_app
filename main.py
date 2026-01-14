@@ -39,3 +39,20 @@ class FinanceTracker:
         ''', (date, trans_type, category, amount, description))
         self.comm.commit()
         print(f"\n{trans_type.capitalize()} of ${amount:.2f} added successfully!")
+    
+    def view_transactions(self, limit=None):
+        """View all transactions"""
+        query = 'SELECT * FROM transactions ORDER BY date DESC'
+        if limit:
+            query += f' LIMIT {limit}'
+
+        self.cursor.execute(query)
+        transactions = self.cursor.fetchall()
+        
+        if not transactions:
+            print("\nNo transactions found.")
+            return
+        
+        print("\n" + "="*80)
+        print(f"{'ID':<5} {'Date':<12} {'Type':<10} {'Category':<15} {'Amount':<10} {'Description'}")
+        print("="*80)
