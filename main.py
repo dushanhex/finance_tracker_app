@@ -56,3 +56,6 @@ class FinanceTracker:
         print("\n" + "="*80)
         print(f"{'ID':<5} {'Date':<12} {'Type':<10} {'Category':<15} {'Amount':<10} {'Description'}")
         print("="*80)
+
+        for trans in transactions:
+            trans_id, date, trans_type, category, amount, description = trans
