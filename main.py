@@ -59,3 +59,15 @@ class FinanceTracker:
 
         for trans in transactions:
             trans_id, date, trans_type, category, amount, description = trans
+            print(f"{trans_id:<5} {date:<12} {trans_type:<10} {category:<15} ${amount:<9.2f} {description}")
+        print("="*80)
+
+    def get_balance(self):
+        """Calculate current balance"""
+        self.cursor.execute("SELECT SUM(amount) FROM transactions WHERE type='income'")
+        income = self.cursor.fetchone()[0] or 0
+
+        balance = income - expenses
+
+        
+        
