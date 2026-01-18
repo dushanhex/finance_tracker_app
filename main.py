@@ -70,4 +70,35 @@ class FinanceTracker:
         balance = income - expenses
 
         
+        print("\n" + "="*40)
+        print(f"Total Income:   ${income:,.2f}")
+        print(f"Total Expenses: ${expenses:,.2f}")
+        print(f"Current Balance: ${balance:,.2f}")
+        print("="*40)
         
+        return balance
+    
+    def get_summary_by_category(self):
+        """Get spending summary by category"""
+        self.cursor.execute('''
+            SELECT category, type, SUM(amount) as total
+            FROM transactions
+            GROUP BY category, type
+            ORDER BY total DESC
+        ''')
+        results = self.cursor.fetchall()
+        
+        if not results:
+            print("\nNo transactions to summarize.")
+            return
+        
+        print("\n" + "="*50)
+        print("Summary by Category")
+        print("="*50)
+        print(f"{'Category':<20} {'Type':<10} {'Total'}")
+        print("-"*50)
+        
+        for category, trans_type, total in results:
+            print(f"{category:<20} {trans_type:<10} ${total:,.2f}")
+        
+        print("="*50)
